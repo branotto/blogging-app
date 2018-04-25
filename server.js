@@ -37,7 +37,7 @@ app.get('/posts/:id', (req, res) =>
     .then(blogpost => res.json(blogpost.serialize()))
     .catch(err =>
         {
-            console.err(err);
+            console.error(err);
             res.status(500).json({message: 'Internal server error'});
         });
 });
@@ -101,7 +101,13 @@ app.put('/posts/:id', (req, res) =>
     .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
-
+app.delete('/posts/:id', (req, res) =>
+{
+    BlogPosts
+    .findByIdAndRemove(req.params.id)
+    .then(blogpost => res.status(204).end())
+    .catch(err => res.status(500).json({message: 'Internal server error'}));
+});
 
 
 let server;
